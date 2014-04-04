@@ -1,0 +1,23 @@
+<li>
+	<% if !entry.title.blank? %>
+		<b><span class="title">Title: <%= entry.title %></span></b>
+	<% end %>
+	
+	<span class="content"><%= entry.content %></span>
+	<% if signed_in? %>
+		<%= link_to "comments ", entry %>
+	<% else %>
+		<%= link_to "view comments ", entry %>
+	<% end %>
+	<span class="timestamp">
+		Posted <%= time_ago_in_words(entry.created_at )%> ago.
+	</span>
+	
+
+	<% if current_user?(entry.user)%>
+		<%= link_to "delete", entry, method: :delete,
+										data: { confirm: "You sure?" },
+										title: entry.content %>
+	<% end %>
+
+</li>
