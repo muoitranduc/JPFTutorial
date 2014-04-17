@@ -98,10 +98,25 @@ public class MainApp {
 	public static void main(String[] args) throws IOException{
 		MainApp mainApp = new MainApp();
 		String inString = " public class Target {" +
-				"public static void main(String[] args){" +
-				"System.out.println(123);"+
-				"  }" +
-				"}";
+				"static class Fork {}" +
+				"static class Philosopher extends Thread {" +
+				"Fork left, right;" +
+				"public Philosopher(Fork left, Fork right) {" +
+				"this.left = left;" +
+				"this.right = right;}" +
+				"public void run() {" +
+				"synchronized (left) {" +
+				"synchronized (right) {}}}}" +
+				"static int nPhilosophers = 6;" +
+				"public static void main(String[] args) {" +
+				"if (args.length > 0){" +
+				"nPhilosophers = Integer.parseInt(args[0]);}" +
+				"Fork[] forks = new Fork[nPhilosophers];" +
+				"for (int i = 0; i < nPhilosophers; i++) {" +
+				"forks[i] = new Fork();}" +
+				"for (int i = 0; i < nPhilosophers; i++) {" +
+				"Philosopher p = new Philosopher(forks[i], forks[(i + 1) % nPhilosophers]);" +
+				"p.start();}}}";
 		mainApp.setInputString(inString);
 		mainApp.printToFile();
 		
@@ -120,10 +135,10 @@ public class MainApp {
 		
 		mainApp.setOutputString(mainApp.reportFile, Charset.defaultCharset());
 		
-		mainApp.deleteFile(mainApp.targetFile);
-		mainApp.deleteFile(mainApp.reportFile);
+		/*mainApp.deleteFile(mainApp.targetFile);
+		mainApp.deleteFile(mainApp.reportFile);*/
 		
-		//System.out.println(mainApp.outputString);
+		System.out.println(mainApp.outputString);
 	}
 
 }
