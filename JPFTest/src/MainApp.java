@@ -124,11 +124,9 @@ public class MainApp {
 		//Config config = JPF.createConfig(args);
 		Config config = new Config(new InputStreamReader(MainApp.class.getResourceAsStream("jpf-config")));
 		config.setProperty("target", mainApp.targetClass);
-		//config.setProperty("report.console.start", "");
-		//config.setProperty("report.console.finished", "");
-		config.setProperty("jpf.home", "${user.home}/workspace");
-		config.setProperty("jpf-core", " ${user.home}/workspace/jpf-core");
-		config.setProperty("extensions", "${jpf-core}");
+		config.setProperty("report.console.start", "");
+		config.setProperty("report.console.finished", "");
+		
 		config.setProperty("report.console.property_violation", mainApp.options);
 		config.setProperty("report.console.file", mainApp.reportFile);
 		config.setProperty("classpath", mainApp.classPath);

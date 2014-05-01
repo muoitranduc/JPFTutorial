@@ -17,12 +17,13 @@
 jpf-core = ${config_path}
 
 jpf-core.native_classpath=\
-  ${jpf-core}/build/jpf.jar;\
-  ${jpf-core}/build/jpf-annotations.jar
+  ${jpf-core}/libs/jpf.jar;\
+  ${jpf-core}/libs/jpf-annotations.jar
+  ${jpf-core}/libs/jpf-classes.jar
 
-jpf-core.classpath=\
-  ${jpf-core}/build/jpf-classes.jar;\
-  ${jpf-core}/build/examples
+#jpf-core.classpath=\
+  #${jpf-core}/libs/jpf-classes.jar;
+  #${jpf-core}/build/examples
 
 jpf-core.sourcepath=\
   ${jpf-core}/src/examples
