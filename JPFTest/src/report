@@ -1,3 +1,10 @@
+JavaPathfinder v7.0 (rev ${version}) - (C) RIACS/NASA Ames Research Center
+
+
+====================================================== system under test
+Target.main()
+
+====================================================== search started: 5/1/14 9:38 AM
 
 ====================================================== error 1
 gov.nasa.jpf.vm.NotDeadlockedProperty
@@ -99,3 +106,18 @@ gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"MONITOR_ENTER" ,2/3,isCascaded:f
 ------------------------------------------------------ transition #13 thread: 1
 gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"MONITOR_ENTER" ,1/2,isCascaded:false}
   Target.java:1                  : public class Target {static class Fork {}static class Philosopher extends Thread {Fork left, right;public Philosopher(Fork left, Fork right) {this.left = left;this.right = right;}public void run() {synchronized (left) {synchronized (right) {}}}}static int nPhilosophers = 6;public static void main(String[] args) {if (args.length > 0){nPhilosophers = Integer.parseInt(args[0]);}Fork[] forks = new Fork[nPhilosophers];for (int i = 0; i < nPhilosophers; i++) {forks[i] = new Fork();}for (int i = 0; i < nPhilosophers; i++) {Philosopher p = new Philosopher(forks[i], forks[(i + 1) % nPhilosophers]);p.start();}}}
+
+====================================================== results
+error #1: gov.nasa.jpf.vm.NotDeadlockedProperty "deadlock encountered:    thread Target$Philosopher..."
+
+====================================================== statistics
+elapsed time:       00:00:02
+states:             new=207,visited=381,backtracked=574,end=13
+search:             maxDepth=18,constraints=0
+choice generators:  thread=206 (signal=0,lock=48,sharedRef=0,threadApi=6,reschedule=152), data=0
+heap:               new=432,released=2661,maxLive=411,gcCycles=588
+instructions:       12398
+max memory:         75MB
+loaded code:        classes=65,methods=1321
+
+====================================================== search finished: 5/1/14 9:38 AM
