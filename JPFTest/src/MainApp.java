@@ -1,11 +1,13 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
+/*import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Paths;*/
 
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.Config;
@@ -84,11 +86,35 @@ public class MainApp {
 		writer.println(this.inputString);
 		writer.close();
 	}
-	
-	public void setOutputString(String path, Charset encoding) throws IOException{
+
+	public void readFile( String file ) {
+	    BufferedReader reader = null;
+		try {
+			reader = new BufferedReader( new FileReader (file));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    String         line = null;
+	    StringBuilder  stringBuilder = new StringBuilder();
+	    String         ls = System.getProperty("line.separator");
+
+	    try {
+			while( ( line = reader.readLine() ) != null ) {
+			    stringBuilder.append( line );
+			    stringBuilder.append( ls );
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	    this.outputString =  stringBuilder.toString();
+	}
+	/*public void setOutputString(String path, Charset encoding) throws IOException{
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		this.outputString = new String(encoded, encoding);
-	}
+	}*/
 	
 	public void deleteFile(String fileName){
 		File tempFile = new File(fileName);
@@ -136,8 +162,8 @@ public class MainApp {
 		
 		jpf.run();
 		
-		mainApp.setOutputString(mainApp.reportFile, Charset.defaultCharset());
-		
+		//mainApp.setOutputString(mainApp.reportFile, Charset.defaultCharset());
+		mainApp.readFile(mainApp.reportFile);
 		/*mainApp.deleteFile(mainApp.targetFile);
 		mainApp.deleteFile(mainApp.reportFile);*/
 		
