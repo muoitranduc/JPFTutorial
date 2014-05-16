@@ -14,16 +14,15 @@
 # (ant does ${..} property expansion, but ignores property redefinition, so the
 # following line will be ignored)
 
-jpf-core = ${config_path}
+jpf-core = ${user.dir}
 
 jpf-core.native_classpath=\
   ${jpf-core}/libs/jpf.jar;\
-  ${jpf-core}/libs/jpf-annotations.jar
+  ${jpf-core}/libs/jpf-annotations.jar;\
   ${jpf-core}/libs/jpf-classes.jar
 
-#jpf-core.classpath=\
-  #${jpf-core}/libs/jpf-classes.jar;
-  #${jpf-core}/build/examples
+jpf-core.classpath=\
+  ${jpf-core}/libs/jpf-classes.jar
 
 jpf-core.sourcepath=\
   ${jpf-core}/src/examples
@@ -32,7 +31,6 @@ jpf-core.test_classpath=\
   ${jpf-core}/build/tests
 
 jpf-core.peer_packages = gov.nasa.jpf.vm,<model>,<default>
-
 
 
 # the default jpf-core properties file with keys for which we need mandatory defaults

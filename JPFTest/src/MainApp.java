@@ -78,13 +78,27 @@ public class MainApp {
 		setSourcePath(".\\src");
 		setOptions("error,trace");
 		setTargetFile(this.sourcePath + "\\" + this.targetClass + ".java");
-		setReportFile(this.sourcePath + "\\report"); 
+		setReportFile(this.sourcePath + "\\report.out");
 	}
 	
-	public void printToFile() throws FileNotFoundException{
-		PrintWriter writer = new PrintWriter(this.targetFile);
-		writer.println(this.inputString);
-		writer.close();
+	public void printToFile(){
+		File tempFile = new File(this.targetFile);
+		try {
+			tempFile.createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter(tempFile);
+			writer.println(this.inputString);
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void readFile( String file ) {
@@ -104,17 +118,29 @@ public class MainApp {
 			    stringBuilder.append( line );
 			    stringBuilder.append( ls );
 			}
+			reader.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+	 
 	    this.outputString =  stringBuilder.toString();
 	}
 	/*public void setOutputString(String path, Charset encoding) throws IOException{
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		this.outputString = new String(encoded, encoding);
 	}*/
+	
+	public void createFile(String fileName){
+		File tempFile = new File(fileName);
+		try {
+			//System.out.println(tempFile.createNewFile() + fileName);
+			tempFile.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public void deleteFile(String fileName){
 		File tempFile = new File(fileName);
@@ -124,6 +150,9 @@ public class MainApp {
 	
 	public static void main(String[] args) throws IOException{
 		MainApp mainApp = new MainApp();
+		//mainApp.createFile(mainApp.targetFile);
+		mainApp.createFile(mainApp.reportFile);
+		
 		String inString = " public class Target {" +
 				"static class Fork {}" +
 				"static class Philosopher extends Thread {" +
@@ -144,6 +173,7 @@ public class MainApp {
 				"for (int i = 0; i < nPhilosophers; i++) {" +
 				"Philosopher p = new Philosopher(forks[i], forks[(i + 1) % nPhilosophers]);" +
 				"p.start();}}}";
+		
 		mainApp.setInputString(inString);
 		mainApp.printToFile();
 		
@@ -152,7 +182,6 @@ public class MainApp {
 		config.setProperty("target", mainApp.targetClass);
 		config.setProperty("report.console.start", "");
 		config.setProperty("report.console.finished", "");
-		
 		config.setProperty("report.console.property_violation", mainApp.options);
 		config.setProperty("report.console.file", mainApp.reportFile);
 		config.setProperty("classpath", mainApp.classPath);
@@ -161,12 +190,10 @@ public class MainApp {
 		JPF jpf = new JPF(config);
 		
 		jpf.run();
-		
 		//mainApp.setOutputString(mainApp.reportFile, Charset.defaultCharset());
 		mainApp.readFile(mainApp.reportFile);
-		/*mainApp.deleteFile(mainApp.targetFile);
-		mainApp.deleteFile(mainApp.reportFile);*/
-		
+		//mainApp.deleteFile(mainApp.targetFile);
+		mainApp.deleteFile(mainApp.reportFile);
 		System.out.println(mainApp.outputString);
 	}
 
