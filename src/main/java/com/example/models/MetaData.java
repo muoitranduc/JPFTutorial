@@ -56,7 +56,7 @@ public class MetaData {
 	public void init() {
 		this.name = "echo";
 		this.displayName = "Echo";
-		this.version = "1.0";
+		this.version = "1.7";
 		this.email = "rise4fun-feedback@microsoft.com";
 		this.supportEmail = "rise4fun-feedback@microsoft.com";
 		this.termsOfUseUrl = "http://rise4fun.com/termsofuse";
