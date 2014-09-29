@@ -1,0 +1,8 @@
+(declare-variable x String)
+(declare-variable z String)
+(declare-variable b1 bool)
+
+(assert (= b1 (Matches "nba" "nba") ) )
+asic
+(check-sat)
+(get-model)
